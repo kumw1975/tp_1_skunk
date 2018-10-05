@@ -1,6 +1,3 @@
-
-
-
 public class Die{
 	
 	private int rollValue;

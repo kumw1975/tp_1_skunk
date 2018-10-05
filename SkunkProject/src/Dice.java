@@ -1,9 +1,10 @@
-import edu.princeton.cs.introcs.StdOut;
 /**
  * Dice represents a single pair of rollable Die objects, randomly generating
- * sums of their two values * 
- * This is a Javadoc comment: add more to your finished class below * 
- * @authors Eric Level, Hughbert Kumwesiga & Wasswa Derrick
+ * sums of their two values
+ * 
+ * This is a Javadoc comment: add more to your finished class below
+ * 
+ * @authors Hughbert Kumwesiga & Wasswa Derrick
  *
  */
  
@@ -17,76 +18,60 @@ public class Dice{
 	// Constructors (object initializers) also can be declared anywhere
 	// Convention: after instance fields/variables
 	// initialize instance variables die1 and die2 by
-	// creating a new instance of each
+	// creating a new instance of each Die
+	public Dice(){
+		this.die1 = new Die();
+		this.die2 = new Die();
+	}
 	
 	// overloaded constructor :: use for testable die
 	public Dice(Die die1, Die die2){
-		this.die1 = new Die();
-		this.die2 = new Die();
+		this.die1 = die1;
+		this.die2 = die2;
 	}
-	
-
-	public Dice()
-	{
-		// initialize instance variables die1 and die2 by
-		// creating a new instance of each
-
-		this.die1 = new Die();
-		this.die2 = new Die();
-		this.roll();
-	}
- 
 
 	// Instance methods can also be declared anywhere
 	// Convention: after constructors
-
-	public int getLastRoll()
-	{
-		 return 0;
+	public int getRollValue(){
+		return this.rollValue;
 	}
 
-	public void roll()
-	{
-		// roll each of die1, die2, sum their last rolls,
-		// then set Dice.lastRoll to this value
+	// Setter method to set the value of the instance variable. 
+	private void setRollValue(int rollValue){
+		this.rollValue = rollValue;
+	}
 
+	// roll each of die1, die2, sum their last rolls,
+	// then set Dice.lastRoll to this value	
+	public void roll(){
 		die1.roll();
 		die2.roll();
-		//this.lastRoll = die1.getLastRoll() + die2.getLastRoll();
-
+		int rollValue =  die1.getRollValue() + die2.getRollValue();
+		setRollValue(rollValue);	
 	}
 
 	// the following method converts the internals of
 	// this Dice object, and returns a descriptive String:
-	//
 	// Roll of 7 => 4 + 3
-	//
-
-	public String toString()
-	{
-		return "Dice with last roll: " + getLastRoll() + " => " + die1.getLastRoll() + " + " + die2.getLastRoll();
-
+	public String toString(){		
+		int rollValue 			= this.getRollValue();
+		String displayLastRoll  = (rollValue < 10 )? " "+rollValue :""+rollValue;		
+		return "Dice Sum: " + displayLastRoll + " => " + this.die1.getRollValue() + " + " + this.die2.getRollValue();
 	}
-
-	// static methods can go anywhere - but at end is standard
-
-	public static final int NUM_TRIALS = 360;
-
-	public static void main(String[] args)
-	{
-		Dice dice1 = new Dice();
-		int doubleSkunkCount = 0;
-
-		for (int i = 0; i < NUM_TRIALS; i++)
-		{
-			dice1.roll();
-			StdOut.println(dice1);
-			
-			if (dice1.getLastRoll() == 2)
-				doubleSkunkCount++;
-		}
-
-		StdOut.println("Actual count: " + doubleSkunkCount);
-		StdOut.println("Expected count: " + (NUM_TRIALS / 36.0));
+	
+	public String showRollDetails(){		
+		int rollValue 			= this.getRollValue();
+		String displayLastRoll  = (rollValue < 10 )? " "+rollValue :""+rollValue;		
+		return displayLastRoll + " => " + this.die1.getRollValue() + " + " + this.die2.getRollValue();
 	}
+	
+	public int getDie1RollValue(){		
+		return this.die1.getRollValue();
+	}
+	
+	public int getDie2RollValue(){		
+		return this.die2.getRollValue();
+	}
+	
+ 
 }
