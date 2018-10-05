@@ -483,9 +483,10 @@ public class Game {
 		this.players=lastRoundSequence;
 		this.isLastRound 			= true;	
 		
-//		for (int i = 0; i < players.length; i++) {
-//			StdOut.println("LR "+ i + " "+ players[i].getName());
-//		}
+ 		for (int i = 0; i < players.length; i++) {
+ 			/*StdOut.println*/String result=("Last Round sequence  "+ i + " "+ this.lastRoundSequence[i].getName());
+ 			result.length();
+ 		}
 		
 		//Each succeeding player receives one more chance to better the goal and end the game(round) hence i=1.
 		//so we skip the winning player i=0;
