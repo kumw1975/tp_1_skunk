@@ -1,5 +1,4 @@
-
-
+import edu.princeton.cs.introcs.StdOut;
 
 public class Player extends Dice{
 
@@ -115,7 +114,7 @@ public class Player extends Dice{
 			//Case: Player has no chips left but rolls a skunk and gets a penalty. 
 			//What do we do here? Do we end the game for this player 
 			//or set their chips to zero or just assume that they can have insufficient chips and can be in debt
-			System.out.println(this.getName() + " Doesn't have sufficient chips");
+			StdOut.println(this.getName() + " Doesn't have sufficient chips");
 			this.setNumberOfChips(this.getNumberOfChips()-i);	
 		}			
 	}
