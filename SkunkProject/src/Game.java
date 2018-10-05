@@ -1,6 +1,4 @@
-
 import java.io.*;
-
 import edu.princeton.cs.introcs.StdOut;
 
 public class Game {

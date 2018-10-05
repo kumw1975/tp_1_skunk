@@ -1,6 +1,3 @@
-
-
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -9,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
+import edu.princeton.cs.introcs.StdOut;
 
 /**
  * @author Hughbert Kumwesiga | Wasswa Derrick 
@@ -179,7 +176,7 @@ public class Dice_Tests{
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Completed Test Suite for Dice Class");
+		StdOut.println("Completed Test Suite for Dice Class");
 	}
 
 }
