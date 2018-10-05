@@ -63,13 +63,11 @@ public class Dice_Tests{
 	public final void testRandomDiceDieDie() {
 	
 		int rollValue = 0;
-		boolean range = false;
 		
 		for (int i = 0; i < 1000; i++) {
 			dice1.roll();	
 			rollValue = dice1.getRollValue();
-			range = (rollValue > 0 && rollValue < 13);			
-			assertTrue(range);		
+			assertTrue((rollValue > 0 && rollValue < 13));		
 		}
 	}
 	
@@ -90,19 +88,11 @@ public class Dice_Tests{
 	
 	@Test //Die 1 is random & Die 2 is predictable
 	public final void testRandomPredictableDiceDieDie() {
-
-		int die1RollValue 	= 0;
-		int die2RollValue 	= 0;		
-		boolean range 		= false;
 		
 		for (int i = 0; i < 1000; i++) {
 			dice3.roll();	
-			die1RollValue = dice3.getDie1RollValue();
-			die2RollValue = dice3.getDie2RollValue();			
-			range 		  = (die1RollValue > 0 && die1RollValue < 7);	
-			
-			assertTrue(range);				
-			assertEquals(die2ArrayValues[i%die2ArrayValues.length], die2RollValue);		
+			assertTrue((dice3.getDie1RollValue() > 0 && dice3.getDie1RollValue() < 7));				
+			assertEquals(die2ArrayValues[i%die2ArrayValues.length], dice3.getDie2RollValue());		
 		}		
 	}
 
@@ -112,17 +102,11 @@ public class Dice_Tests{
 		dice1.roll();  
 		dice2.roll();
 		dice3.roll(); 
+
+		assertTrue((dice1.getDie1RollValue() > 0 && dice1.getDie1RollValue() < 13));
+		assertTrue((dice2.getDie1RollValue() > 0 && dice2.getDie1RollValue() < 13));
+		assertTrue((dice3.getDie1RollValue() > 0 && dice3.getDie1RollValue() < 13));	
 		
-		int die1RollValue 	= dice1.getDie1RollValue();
-		int die2RollValue 	= dice2.getDie1RollValue();
-		int die3RollValue 	= dice3.getDie1RollValue();		
-		boolean dice1Range  = (die1RollValue > 0 && die1RollValue < 13);	
-		boolean dice2Range  = (die2RollValue > 0 && die2RollValue < 13);	
-		boolean dice3Range  = (die3RollValue > 0 && die3RollValue < 13);	
-		
-		assertTrue(dice1Range);
-		assertTrue(dice2Range);
-		assertTrue(dice3Range);	
 	}
 
 	@Test //using get Roll value test to test ROLL
@@ -132,6 +116,7 @@ public class Dice_Tests{
 
 	@Test
 	public final void testToString() {
+		
 		assertTrue(dice1.toString() instanceof String);
 		assertTrue(dice2.toString() instanceof String);
 		assertTrue(dice3.toString() instanceof String);
@@ -166,7 +151,7 @@ public class Dice_Tests{
 		}
 	}
 
-	@After //After Each method reset the dice
+	@After //After Each method reset the dice <- redundant since we do this in @before
 	public void tearDown() throws Exception {
 		//before running a new test case		
 		dice1 = new Dice(); //Two random Die
