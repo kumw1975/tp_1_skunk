@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import edu.princeton.cs.introcs.StdOut;
 /**
- * @author kumw1975
+ * @author Hughbert Kumwesiga, Derrick Wasswa
  *
  */
 public class Die__Tests {
