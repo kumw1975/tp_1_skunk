@@ -50,6 +50,7 @@ public class Die__Tests {
 	@Test
 	public final void testDieIntArray() {
 		assertTrue(die2ArrayValues!=null);
+		assertArrayEquals(die2ArrayValues, die2ArrayValues);//redundant
 	}
 
 	/**

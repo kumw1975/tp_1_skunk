@@ -44,17 +44,17 @@ public class Game {
 	}
 	
 	
-	public Player[] getPlayers() {
+/*	private Player[] getPlayers() {
 		return players;
 	}
 
 
-	public void setPlayers(Player[] players) {
+	private void setPlayers(Player[] players) {
 		this.players = players;
 	}
+*/
 
-
-	public void startRound(){
+	private void startRound(){
 		//initialize Round metrics
  		roundNumber++;
 		for (int i = 0; i < players.length; i++) {	
@@ -76,8 +76,8 @@ public class Game {
 		*/
 		
 		//get the round winner 
-		// is the round winner the one with the overall highest score (cumulative) ?
-		// is the round winner the one with highest score only in this round 
+		// is the round winner the one with the overall highest score (cumulative//game points) ?
+		// is the round winner the one with highest score only in this round (round points)
 		
 		int highScore   	= 0;
 		int roundWinnerLoc 	= 0;
@@ -135,7 +135,7 @@ public class Game {
 	
 	
 	
-	public void startTurn(){
+	private void startTurn(){
 		
 		if (!isLastRound) {
 			activePlayer = players[activePlayerLoc];
@@ -367,7 +367,7 @@ public class Game {
 		addChipsToKitty(i);		
 	}
 
-	public void addChipsToKitty(int numberOfChipsToAddToKitty) {
+	private void addChipsToKitty(int numberOfChipsToAddToKitty) {
 		numberOfChipsInKitty = this.numberOfChipsInKitty+ numberOfChipsToAddToKitty;
 	}	
 	
@@ -459,7 +459,7 @@ public class Game {
 
 
 
-	public void setLastRound() {		
+	private void setLastRound() {		
 
 	/*	
 	The first player to accumulate a total of 100 or more points

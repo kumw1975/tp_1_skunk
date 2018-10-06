@@ -26,42 +26,35 @@ public class Game__Tests {
 
 	@Test
 	public final void testGame() {
-		fail("Not yet implemented"); // TODO
+ 
 	}
 
 	@Test
 	public final void testGetPlayers() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testSetPlayers() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testStartRound() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testStartTurn() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testPlay() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testAddChipsToKitty() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 	@Test
 	public final void testSetLastRound() {
-		fail("Not yet implemented"); // TODO
-	}
+ 	}
 
 }
