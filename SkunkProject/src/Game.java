@@ -1,6 +1,6 @@
 import java.io.*;
 import edu.princeton.cs.introcs.StdOut;
-
+//Business Logic
 public class Game {
 
 	private int 	 goal;

@@ -1,5 +1,5 @@
 import edu.princeton.cs.introcs.StdOut;
-
+//Presentation Logic
 public class SkunkApp {
 	public static void main(String[] args) {		
 		

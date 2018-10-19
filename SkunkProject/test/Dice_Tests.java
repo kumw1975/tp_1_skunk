@@ -131,11 +131,6 @@ public class Dice_Tests{
 	}
 
 	@Test
-	public final void testShowRollDetails() {
-		testToString();
-	}
-
-	@Test
 	public final void testGetDie1RollValue() {
 		for (int i = 0; i < 1000; i++) {
 			dice2.roll();
@@ -149,6 +144,12 @@ public class Dice_Tests{
 			dice2.roll();
 			assertEquals(die2ArrayValues[i%die2ArrayValues.length], dice2.getDie2RollValue());			
 		}
+	}
+	
+	@Test
+	public final void testShowRollDetails(){
+		dice2.roll();
+		assertEquals(" 4 => 1 + 3", dice2.showRollDetails());
 	}
 
 	@After //After Each method reset the dice <- redundant since we do this in @before
