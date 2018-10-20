@@ -1,6 +1,6 @@
 import edu.princeton.cs.introcs.StdOut;
 //Data Layer
-public class Player extends Dice{
+public class Player extends Dice {
 
 	//Instance variables & some utility variables for the player class
 	private String name;

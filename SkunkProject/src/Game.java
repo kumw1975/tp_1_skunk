@@ -178,19 +178,6 @@ public class Game {
 				StdOut.println("NUMBER OF CHIPS IN THE GAME'S KITTY \t: " + previousNumberOfChipsInKitty +" \t=> "+  numberOfChipsInKitty);
 				StdOut.println("DOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  + previousNumberOfDoubleSkunks +" \t=> "+  doubleSkunkCount);
 				
-				/*				
- 				Simulate Loading effect
-				Thread.sleep(1000);		
-				System.out.print("LOADING PLAYER METRICS ");
-				Thread.sleep(1000);		
-				System.out.print(".");
-				Thread.sleep(1000);	
-				System.out.print(".");
-				Thread.sleep(1000);	
-				System.out.print(".");
-				Thread.sleep(1000);	
-				 */		
-				
 				StdOut.println(activePlayer);
 				
 				if(penalty.trim().length() == 0 ) {
@@ -219,15 +206,10 @@ public class Game {
 					
 					*/
 					goal =(activePlayer.getGamePoints());
-					StdOut.println("******************************************************");
-					StdOut.println("******************************************************");
-					StdOut.println("******************************************************");
+					StdOut.println("------------------------------------------------------");			
 					StdOut.println("******************************************************");
 					StdOut.println("******************************************************");
 					StdOut.println("New High Score: " + goal +" set by "+ activePlayer.getName());
-					StdOut.println("******************************************************");
-					StdOut.println("******************************************************");
-					StdOut.println("******************************************************");
 					StdOut.println("******************************************************");
 					StdOut.println("******************************************************");
 					StdOut.println("------------------------------------------------------");			
@@ -246,18 +228,13 @@ public class Game {
 			//Each succeeding player receives one more chance to better the goal and end the game(round) hence i=1.
 			if(activePlayer.getGamePoints() >= goal){
 				goal =(activePlayer.getGamePoints());
-				StdOut.println("******************************************************");
-				StdOut.println("******************************************************");
-				StdOut.println("******************************************************");
+				StdOut.println("------------------------------------------------------");			
 				StdOut.println("******************************************************");
 				StdOut.println("******************************************************");
 				StdOut.println("New High Score: " + goal +" set by "+ activePlayer.getName());
 				StdOut.println("******************************************************");
 				StdOut.println("******************************************************");
-				StdOut.println("******************************************************");
-				StdOut.println("******************************************************");
-				StdOut.println("******************************************************");
-				StdOut.println("------------------------------------------------------");			
+				StdOut.println("------------------------------------------------------");		
 			}			
 		}			
 
@@ -524,7 +501,7 @@ public class Game {
 		for (int i = 0; i < this.players.length; i++) {
 			StdOut.println("Enter Player "+ (i+1) +"'s username ");
 			String playerName = getPlayerName();
-			this.players[i] = new Player(playerName.toUpperCase());
+			this.players[i] = new Player(playerName.toUpperCase());//mixing domain logic. use observer class.
 			this.players[i].setPlayerNumber(i+1);
 			StdOut.println("Player "+  (i+1)  +"'s username is "+ playerName);
 		}
@@ -588,7 +565,8 @@ public class Game {
 	
 	
 	/*
-
+This class implements the following rules
+----------------------------------------------
 The object of the game(round) is to accumulate a score of 100 points or more. 
 A score is made by rolling the dice and combining the points on the two dice. 
 For example: A 4 and 5 would be 9 points - 

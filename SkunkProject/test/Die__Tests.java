@@ -48,7 +48,7 @@ public class Die__Tests {
 	 * Test method for {@link team__project__1.Die#Die(int[])}.
 	 */
 	@Test
-	public final void testDieIntArray() {
+	public final void testDieIntArray() {		
 		assertTrue(die2ArrayValues!=null);
 		assertArrayEquals(die2ArrayValues, die2ArrayValues);//redundant
 	}
