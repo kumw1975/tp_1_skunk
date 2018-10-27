@@ -1,9 +1,17 @@
 
 public class Observer {
 //This class will be a bridge between the business logic and the presentation Logic
-	
+	private Game game;
 	public Observer() {
 		
+	}
+	
+	public Game getGame() {
+		return this.game;
+	}
+	
+	public void requestNewGameSetUp(String[] playerNames) {
+		this.game = new Game(playerNames);
 	}
 	
 	/*   

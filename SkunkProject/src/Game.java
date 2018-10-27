@@ -1,5 +1,3 @@
-import java.io.*;
-import edu.princeton.cs.introcs.StdOut;
 //Business Logic
 public class Game {
 
@@ -14,7 +12,7 @@ public class Game {
 	private boolean  isLastRound;
 	private Player[] lastRoundSequence;	
 	
-	public Game(){
+	public Game(String[] playerNames){
 		
 		this.goal 					= 100; 
 		this.roundNumber  			= 0; 
@@ -22,25 +20,13 @@ public class Game {
 		this.activePlayerLoc 		= 0;
 		this.doubleSkunkCount 		= 0;
 		this.isLastRound 			= false;
-
-		setup(); //uncomment in production
-		/*
-		//Start Testing Snippet for (Dev) 
-		this.players = new Player[]{new Player("MO"), new Player("HO"), new Player("DO")};
-		this.numberOfPlayers = players.length;
+		this.players 				= new Player[playerNames.length];
+		this.numberOfPlayers		= playerNames.length;
 		
-		StdOut.println("------------------------------------------------------");
-		StdOut.println("PLAYER INFO\n------------------------------------------------------");
-		for (int i = 0; i < players.length; i++) {	
-			players[i].setPlayerNumber(i+1);
-			String name = (  (i+1) < 10 ) ? " "+(i+1)+" : "+players[i].getName() : (i+1)+" : "+players[i].getName();
-			StdOut.println("Player "+ name);
+		for (int i = 0; i <this.numberOfPlayers; i++) {
+			this.players[i] = new Player(playerNames[i].toUpperCase());
+			this.players[i].setPlayerNumber(i+1);
 		}
-		//Simulate last round
-		players[1].setGamePoints(100);
-		players[1].setPreviousMetrics();
-		//End Testing (Dev) Snippet	
-		*/
 	}
 	
 	
@@ -63,22 +49,19 @@ public class Game {
 		}
 		activePlayerLoc = 0;
 	}
-
+	/*
+	The winner of each game(round) collects all chips in "kitty" and 
+	in addition five chips from each losing player or 10 chips 
+	from any player without a score. 
+	(so is this a player without a round score or a player without a turn score or a player without a game score?)
+	*/
 	
-	
+	//get the round winner 
+	// is the round winner the one with the overall highest score (cumulative//game points) ?
+	// is the round winner the one with highest score only in this round (round points)
 	
 	private void endRound() {
-		/*
-		The winner of each game(round) collects all chips in "kitty" and 
-		in addition five chips from each losing player or 10 chips 
-		from any player without a score. 
-		(so is this a player without a round score or a player without a turn score or a player without a game score?)
-		*/
-		
-		//get the round winner 
-		// is the round winner the one with the overall highest score (cumulative//game points) ?
-		// is the round winner the one with highest score only in this round (round points)
-		
+
 		int highScore   	= 0;
 		int roundWinnerLoc 	= 0;
 		
@@ -90,12 +73,13 @@ public class Game {
 		}
 		
 		Player winner = players[roundWinnerLoc];
-		StdOut.println("The winner was Player "+ winner.getPlayerNumber() +" : "+ winner.getName());
+		//TODO StdOut.println("The winner was Player "+ winner.getPlayerNumber() +" : "+ winner.getName());
 		
 		//The winner of each game(round) collects all chips in "kitty"  
 		winner.setNumberOfChips(winner.getNumberOfChips() + numberOfChipsInKitty); 
 		numberOfChipsInKitty = 0;
-		
+/*	
+ 		TODO
 		BufferedReader reader 	= null;
 		String input 			= "";		
 	
@@ -130,7 +114,7 @@ public class Game {
 		 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}			
+		}*/			
 	}
 	
 	
@@ -148,7 +132,9 @@ public class Game {
 		//initialize Turn Metrics
 		activePlayer.setTurnPoints(0);
 		activePlayer.setTurnsTakenInCurrentRound(0); 
-		
+
+/*		
+		TODO
 		String penalty 			= "";
 		BufferedReader reader 	= null;
 		String input 			= "Y";		
@@ -189,7 +175,7 @@ public class Game {
 				e.printStackTrace();
 			}			
 		}		
-		activePlayerLoc++;	
+*/		activePlayerLoc++;	
 	}
 	
 	public void play(){		
@@ -206,7 +192,9 @@ public class Game {
 					
 					*/
 					goal =(activePlayer.getGamePoints());
-					StdOut.println("------------------------------------------------------");			
+/*	
+ 					TODO
+ 					StdOut.println("------------------------------------------------------");			
 					StdOut.println("******************************************************");
 					StdOut.println("******************************************************");
 					StdOut.println("New High Score: " + goal +" set by "+ activePlayer.getName());
@@ -216,7 +204,7 @@ public class Game {
 					this.setLastRound();
 					i = players.length; 
 					StdOut.println("STARTING THE LAST ROUND");
-				}				
+*/				}				
 			}
 			if (!isLastRound) {
 				endRound();	
@@ -228,14 +216,16 @@ public class Game {
 			//Each succeeding player receives one more chance to better the goal and end the game(round) hence i=1.
 			if(activePlayer.getGamePoints() >= goal){
 				goal =(activePlayer.getGamePoints());
-				StdOut.println("------------------------------------------------------");			
+/*				
+ 				TODO
+ 				StdOut.println("------------------------------------------------------");			
 				StdOut.println("******************************************************");
 				StdOut.println("******************************************************");
 				StdOut.println("New High Score: " + goal +" set by "+ activePlayer.getName());
 				StdOut.println("******************************************************");
 				StdOut.println("******************************************************");
 				StdOut.println("------------------------------------------------------");		
-			}			
+*/			}			
 		}			
 
 		//get the winner 
@@ -250,7 +240,9 @@ public class Game {
 		}
 		
 		Player winner			= players[roundWinnerLoc];		
-		BufferedReader reader 	= null;
+/*
+ 		TODO
+  		BufferedReader reader 	= null;
 		String input 			= "";		
 		
 		StdOut.println(winner.getName()+ ", How Would you like to collect your Chips?");
@@ -284,10 +276,12 @@ public class Game {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+*/		
 		//SuD does final round score update, reporting final round 
 		//scores for each player and announcing winner(s) of the round.
-		StdOut.println("------------------------------------------------------");	
+/*
+ 		TODO
+ 		StdOut.println("------------------------------------------------------");	
 		StdOut.println("*GAME OVER! GAME OVER! GAME OVER! GAME OVER! GAME OVER*");	
 		StdOut.println("######################################################");
 		StdOut.println("The winner was Player "+ winner.getPlayerNumber() +" : "+winner.getName());
@@ -307,7 +301,7 @@ public class Game {
 		 
 		StdOut.println("* THANKS FOR PLAYING SKUNK *");			 
 		StdOut.println("------------------------------------------------------");	
-		System.exit(0);
+*/		System.exit(0);
 	}
 
 	
@@ -360,7 +354,7 @@ public class Game {
 		activePlayer.setTurnPoints(0);		
 	}
 	
-	private void updateTurnMetrics(String penalty){
+	private String updateTurnMetrics(String penalty){
 		
 		Player activePlayer   = this.activePlayer;
 		String penaltyDetails = "#####################  PENALTY  ######################\n";	
@@ -429,9 +423,12 @@ public class Game {
 		}
 		
 		if(penalty.trim().length()>0) {
-			StdOut.println(penaltyDetails);	
+			penaltyDetails=""+penaltyDetails;	
 		}
-
+		else {
+			penaltyDetails = "";
+		}
+		return penaltyDetails;
 	}
 
 
@@ -482,87 +479,7 @@ public class Game {
 	}
 	
 	
- 	// gets user input and sets number of players & initializes the player array
-	private void setup() {
-	/*
-	Any number can play. [Assume at least two players!] 
-	The suggested number of chips to start is 50. 
-	There are sufficient chips in the box to allow 8 //(assume up to any number of players)
-	players to start with 50 chips by placing a 
-	par value of "one" on white chips, 5 for 1 on red chips 
-	and 10 for 1 on the blue chips.		
-	*/		
-		StdOut.println("Enter the number of players");
-		this.numberOfPlayers = getNumberOfPlayers();
-		StdOut.println("There are "+ this.numberOfPlayers + " players");
-		
-		this.players = new Player[this.numberOfPlayers];
-		
-		for (int i = 0; i < this.players.length; i++) {
-			StdOut.println("Enter Player "+ (i+1) +"'s username ");
-			String playerName = getPlayerName();
-			this.players[i] = new Player(playerName.toUpperCase());//mixing domain logic. use observer class.
-			this.players[i].setPlayerNumber(i+1);
-			StdOut.println("Player "+  (i+1)  +"'s username is "+ playerName);
-		}
-		
-		StdOut.println("\n------------------------------------------------------");
-		StdOut.println("Player Info\n------------------------------------------------------");
-		for (int i = 0; i < players.length; i++) {			
-			String name = (  (i+1) < 10 ) ? " "+(i+1)+" : "+players[i].getName() : (i+1)+" : "+players[i].getName();
-			StdOut.println("Player "+ name);
-		}
-	}
-	
-	
-	private static int getNumberOfPlayers() {//from user as userInput	
-		
-		int result				= 0;		
-		String input 			= ""; 
-		BufferedReader reader 	= null;		
- 		try {			
-			reader = new BufferedReader(new InputStreamReader(System.in));
-			input  = reader.readLine();
-			result = Integer.parseInt(input.trim());
-			
-		} catch (NumberFormatException d) {			
-			System.err.println("WARNING: Wrong Input format!!! Enter NUMBERS ONLY");
-			StdOut.println("Enter the number of players greater than 0");
-			result = getNumberOfPlayers();
-		}
-		catch (IOException ioe) {			
-			System.err.println("WARNING: Invalid Input !!!");
-			StdOut.println("Enter the number of players");
-			result = getNumberOfPlayers();
-		}	
-		
-		while (result < 2/* || result > 8*/) {			
-			System.err.println("GAME RULE VIOLATION: #Players >=2");//[Assume at least two players!] 
-			StdOut.println("Enter the number of players");
-			result = getNumberOfPlayers();			
-		}		
-		return result;
-	}	
-	
-	
-	private static String getPlayerName(){
-		
-		String input 			= ""; 
-		BufferedReader reader 	= null;
-		
-		try {			
-			reader = new BufferedReader(new InputStreamReader(System.in));
-			input  = reader.readLine();
-			
-		}catch (Exception d) {}
- 		while (input.trim().length() < 1) {			
-			System.err.println("GAME RULE VIOLATION: Username can not be empty");
-			StdOut.println("Enter player username ");
-			input = getPlayerName();			
-		}		
-		return input;
-	}
-	
+ 	
 	
 	/*
 This class implements the following rules
