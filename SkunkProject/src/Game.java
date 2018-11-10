@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import edu.princeton.cs.introcs.StdOut;
+
 //Business Logic
 public class Game {
 
@@ -11,6 +16,8 @@ public class Game {
 	private int 	 numberOfPlayers;
 	private boolean  isLastRound;
 	private Player[] lastRoundSequence;	
+	private String   penaltyDetails;
+	private String 	 penalty;
 	
 	public Game(String[] playerNames){
 		
@@ -27,10 +34,10 @@ public class Game {
 			this.players[i] = new Player(playerNames[i].toUpperCase());
 			this.players[i].setPlayerNumber(i+1);
 		}
+		this.activePlayer = this.players[activePlayerLoc];
 	}
 	
-	
-/*	private Player[] getPlayers() {
+ 	private Player[] getPlayers() {
 		return players;
 	}
 
@@ -38,7 +45,7 @@ public class Game {
 	private void setPlayers(Player[] players) {
 		this.players = players;
 	}
-*/
+ 
 
 	private void startRound(){
 		//initialize Round metrics
@@ -78,9 +85,8 @@ public class Game {
 		//The winner of each game(round) collects all chips in "kitty"  
 		winner.setNumberOfChips(winner.getNumberOfChips() + numberOfChipsInKitty); 
 		numberOfChipsInKitty = 0;
-/*	
- 		TODO
-		BufferedReader reader 	= null;
+ 	
+ 		BufferedReader reader 	= null;
 		String input 			= "";		
 	
 		StdOut.println(winner.getName()+ ", How Would you like to collect your Chips?");
@@ -114,70 +120,10 @@ public class Game {
 		 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/			
+		} 			
 	}
 	
-	
-	
-	private void startTurn(){
-		
-		if (!isLastRound) {
-			activePlayer = players[activePlayerLoc];
-		}
-		else{
-			activePlayer = players[activePlayerLoc];
-			//StdOut.println(activePlayerLoc+ " ACTIVE PLAYER SET TO "+ activePlayer.getName());
-		}		
-		
-		//initialize Turn Metrics
-		activePlayer.setTurnPoints(0);
-		activePlayer.setTurnsTakenInCurrentRound(0); 
 
-/*		
-		TODO
-		String penalty 			= "";
-		BufferedReader reader 	= null;
-		String input 			= "Y";		
-		String status 			= "";		
-		
-		while(penalty.trim().length() == 0 && input.trim().equalsIgnoreCase("Y")){
-			try {
-				activePlayer.roll();
-
-				int previousNumberOfChipsInKitty = numberOfChipsInKitty;
-				int previousNumberOfDoubleSkunks = doubleSkunkCount;
-				
-				status = "ROUND " + roundNumber+ " TURN " +(activePlayer.getTurnsTakenInCurrentRound()+1);
-				status = status   + " FOR "+ activePlayer.getName() + " ****** " + activePlayer.getName() +" ROLLED \t::"+ activePlayer.getRollValue();
-				status = status   + " => " + activePlayer.getDie1RollValue() +" + "+  activePlayer.getDie2RollValue();
-
-				StdOut.println("******************************************************");
-				StdOut.println(status);				
-				StdOut.println("******************************************************");
-
-				penalty = analyzeDiceValues();
-				updateTurnMetrics(penalty);
-				
-				StdOut.println("------------------------------------------------------");
-				StdOut.println("GAME INFO \t\t\t\t: OLD \t=> NEW" );
-				StdOut.println("------------------------------------------------------");
-				StdOut.println("NUMBER OF CHIPS IN THE GAME'S KITTY \t: " + previousNumberOfChipsInKitty +" \t=> "+  numberOfChipsInKitty);
-				StdOut.println("DOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  + previousNumberOfDoubleSkunks +" \t=> "+  doubleSkunkCount);
-				
-				StdOut.println(activePlayer);
-				
-				if(penalty.trim().length() == 0 ) {
-					StdOut.println(activePlayer.getName()+ ", Would you like to roll again? -> Enter Y/N");
-					reader 	= new BufferedReader(new InputStreamReader(System.in));
-					input 	= reader.readLine();					
-				}				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}			
-		}		
-*/		activePlayerLoc++;	
-	}
-	
 	public void play(){		
 		while (!isLastRound) {
 			startRound();
@@ -329,7 +275,7 @@ public class Game {
 						
 			result = "TwoSkunks";
 		}
-		
+		this.penalty = result;
 		return result;
 	}	
 
@@ -356,8 +302,8 @@ public class Game {
 	
 	private String updateTurnMetrics(String penalty){
 		
-		Player activePlayer   = this.activePlayer;
-		String penaltyDetails = "#####################  PENALTY  ######################\n";	
+		this.penalty = penalty;
+		this.penaltyDetails = "#####################  PENALTY  ######################\n";	
 
 		activePlayer.setTurnsTakenInCurrentRound(activePlayer.getTurnsTakenInCurrentRound()+1);		
 		activePlayer.incrementTotalTurnsTaken();
@@ -374,6 +320,9 @@ public class Game {
 			
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Rolled One Skunk ::" + activePlayer.showRollDetails()+"\n");
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Lost: A turn, all turn points &  1 chip (added to kitty)");
+		 	activePlayerLoc++;
+		 	activePlayer = players[activePlayerLoc];
+		 	penaltyDetails = penaltyDetails + ("\nThe Active Player was set to Player " + activePlayer.getPlayerNumber() + " : " + activePlayer.getName());
 		 	penaltyDetails = penaltyDetails + ("\n######################################################");		
 		 	
 		 	penalty = "One Skunk";
@@ -393,6 +342,9 @@ public class Game {
 		 	
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Rolled Two Skunks ::" + activePlayer.showRollDetails()+"\n");
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Lost: A turn, all game points &  4 chips (added to kitty)");
+		 	activePlayerLoc++;
+		 	activePlayer = players[activePlayerLoc];
+		 	penaltyDetails = penaltyDetails + ("\nThe Active Player was set to Player " + activePlayer.getPlayerNumber() + " : " + activePlayer.getName());		 	
 		 	penaltyDetails = penaltyDetails + ("\n######################################################");		
 
 		 	penalty = "Two Skunks";
@@ -411,6 +363,9 @@ public class Game {
  		 	
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Rolled One Skunk and a Deuce ::" + activePlayer.showRollDetails()+"\n");
 		 	penaltyDetails = penaltyDetails + (activePlayer.getName()+ " Lost: A turn, all round points &  2 chips (added to kitty)");
+		 	activePlayerLoc++;
+		 	activePlayer = players[activePlayerLoc];
+		 	penaltyDetails = penaltyDetails + ("\nThe Active Player was set to Player " + activePlayer.getPlayerNumber() + " : " + activePlayer.getName());		 	
 		 	penaltyDetails = penaltyDetails + ("\n######################################################");		
 
 		 	penalty = "One Skunk and a Deuce";
@@ -477,6 +432,87 @@ public class Game {
 		}
 		return loc;
 	}
+
+
+	public Player getActivePlayer() {
+		return this.activePlayer;
+	}
+
+	public Player setActivePlayer() {
+		return this.players[activePlayerLoc];
+	}
+
+
+	public String next() {
+		String result = "";
+		if(this.activePlayer.getRollValue() == 0 
+		||!(this.penalty.trim().length() > 0)) {
+			result =  "ROLL?";
+		}
+		else{
+			result = this.penaltyDetails;
+		}
+		return result;
+	}
+
+	public String actAndRespond(String answer) {
+		String result = "";
+		if(answer.equalsIgnoreCase("Y")){
+			activePlayer.roll();
+			result = updateTurnMetrics(analyzeDiceValues());
+		}
+		return result;
+	}
+	
+	
+	private void startTurn(){
+
+
+
+		String penalty 			= "";
+		BufferedReader reader 	= null;
+		String input 			= "Y";		
+		String status 			= "";		
+		
+		while(penalty.trim().length() == 0 && input.trim().equalsIgnoreCase("Y")){
+			try {
+				activePlayer.roll();
+
+				int previousNumberOfChipsInKitty = numberOfChipsInKitty;
+				int previousNumberOfDoubleSkunks = doubleSkunkCount;
+				
+				status = "ROUND " + roundNumber+ " TURN " +(activePlayer.getTurnsTakenInCurrentRound()+1);
+				status = status   + " FOR "+ activePlayer.getName() + " ****** " + activePlayer.getName() +" ROLLED \t::"+ activePlayer.getRollValue();
+				status = status   + " => " + activePlayer.getDie1RollValue() +" + "+  activePlayer.getDie2RollValue();
+
+				StdOut.println("******************************************************");
+				StdOut.println(status);				
+				StdOut.println("******************************************************");
+
+				penalty = analyzeDiceValues();
+				updateTurnMetrics(penalty);
+				
+				StdOut.println("------------------------------------------------------");
+				StdOut.println("GAME INFO \t\t\t\t: OLD \t=> NEW" );
+				StdOut.println("------------------------------------------------------");
+				StdOut.println("NUMBER OF CHIPS IN THE GAME'S KITTY \t: " + previousNumberOfChipsInKitty +" \t=> "+  numberOfChipsInKitty);
+				StdOut.println("DOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  + previousNumberOfDoubleSkunks +" \t=> "+  doubleSkunkCount);
+				
+				StdOut.println(activePlayer);
+				
+				if(penalty.trim().length() == 0 ) {
+					StdOut.println(activePlayer.getName()+ ", Would you like to roll again? -> Enter Y/N");
+					reader 	= new BufferedReader(new InputStreamReader(System.in));
+					input 	= reader.readLine();					
+				}				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+		}		
+ 		activePlayerLoc++;	
+	}
+
+
 	
 	
  	

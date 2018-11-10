@@ -1,6 +1,8 @@
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 
+import javax.swing.plaf.FontUIResource;
+
 import edu.princeton.cs.introcs.StdIn;
 import edu.princeton.cs.introcs.StdOut;
 //Presentation Logic
@@ -14,31 +16,12 @@ public class SkunkApp {
 		//gets stdIn from the user
 		//Doesn't do any business logic i.e no calculations or metric handling. 
 		
+
+		
 		StdOut.println("**************************");		
 		StdOut.println("Welcome to the Skunk Game.".toUpperCase());		
 		StdOut.println("**************************");		
 
-		/**		
-		SKUNKAPP
-		--------
-		get number of players from user
-		get player names from user
-		ask user to continue turn: repeat until "NO" or penalty
-		ask for chip distribution options.
-		show turn metrics. 
-		
-		OBSERVER
-		----------		
-		set active player
-		start round
-		start turn 
-		repeat for all users
-		get round winner
-		check for game winner
-
-		*/ 
-		
-		
 		
 
 		int numberOfPlayers = getNumberOfPlayers();
@@ -47,10 +30,50 @@ public class SkunkApp {
 		String[] playerNames = setPlayerNames(numberOfPlayers);
 		StdOut.println("Player Names are :\n");
 		showPlayerNames(playerNames);
+		StdOut.println("\n");
 
-		Observer observer = new Observer();
-		observer.requestNewGameSetUp(playerNames);
-	
+		//This will be the one and only object that this class will create. 
+		Observer observer = new Observer(playerNames);
+		
+		Player player  	= null;	
+		String nextStep = "";
+		String answer 	= "";	
+		String response = "";		
+		
+		for (int i = 0; i < 10; i++) {
+			
+			player = observer.getActivePlayer();	
+			StdOut.println("ACTIVE PLAYER IS");			
+			StdOut.println(player);	
+			
+			nextStep = observer.whatNext();
+			System.out.println(nextStep);
+			
+			if(nextStep.equalsIgnoreCase("ROLL?")) {
+				
+				StdOut.println(player.getName() + ",  would you like to roll?");			
+				answer = StdIn.readLine();
+				while(!(answer.trim().length()>0)){
+					answer = StdIn.readLine();
+				}
+				answer = answer.trim().toUpperCase();	
+				System.out.println("USER ANSWERED "+answer);					
+			}
+			observer.requestAction(answer);
+			System.out.println("SUD RESPONDED WITH \n" + response);			
+			answer = "";
+		}
+
+		
+		System.exit(0);
+		
+		
+
+		
+		
+		
+
+
 	}
 
 	/**
