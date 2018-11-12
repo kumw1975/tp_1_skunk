@@ -110,16 +110,48 @@ public class SkunkApp {
 			
 		}
 
-		
+		StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");		
+		StdOut.println("@\t     THIS IS THE LAST ROUND".toUpperCase()+"\t\t\t@");		
+		StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");			
 		observer.requestFinalSequence();
 		
 		for (int i = 1; i < 2; i++) {
+			player = observer.getActivePlayer();
 			
-			if(true){
-				StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");		
-				StdOut.println("@\t     THIS IS THE LAST ROUND".toUpperCase()+"\t\t\t@");		
-				StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");							
-			}
+			nextStep = observer.whatNext();
+			
+			while (nextStep.contains("ROLL")){
+				msg = (nextStep.equalsIgnoreCase("ROLL?"))
+				?",  would you like to roll?"
+				:",  would you like to roll Again?";
+				
+				msg = player.getName() + msg;				
+				StdOut.println(msg);		
+				
+				answer = StdIn.readLine();
+				while(!(answer.trim().length()>0)){
+					answer = StdIn.readLine();
+				}
+				
+				answer 	= answer.toUpperCase();	
+				msg 	= "USER ANSWERED "+answer;			
+
+				StdOut.println(msg);
+				nextStep="";				
+				
+				nextStep = observer.whatNext();	
+				response = observer.requestAction(answer);
+				msg 	 = "SUD RESPONSE\n" + response;		
+				
+				StdOut.println("--------------------------------------------------------");			
+				StdOut.println(msg);		
+				StdOut.println("--------------------------------------------------------");		
+
+				answer = "";					
+				
+			}			
+ 			
+ 
 			System.out.println("ACTIVE PLAYER >>>>> " + observer.getActivePlayer());
 		}
 		System.exit(0);
