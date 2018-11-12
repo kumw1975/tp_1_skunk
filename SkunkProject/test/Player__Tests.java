@@ -189,7 +189,7 @@ public class Player__Tests {
 	}
 
 	/**
-	 * Test method for {@link Player#getTurnsTakenInCurrentRound()}.
+	 * Test method for {@link Player#getRoundTurns()}.
 	 */
 	@Test
 	public final void testGetTurnsTakenInCurrentRound() {
@@ -205,7 +205,7 @@ public class Player__Tests {
 	}
 
 	/**
-	 * Test method for {@link Player#setTurnsTakenInCurrentRound(int)}.
+	 * Test method for {@link Player#setRoundTurns(int)}.
 	 */
 	@Test
 	public final void testSetTurnsTakenInCurrentRound() {

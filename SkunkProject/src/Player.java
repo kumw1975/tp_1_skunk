@@ -87,7 +87,7 @@ public class Player extends Dice {
 	public void setDoubleSkunkCount(int i) 			{this.doublSkunkCount = i;				}
 	public int getTotalTurnsTaken() 				{return this.totalTurnsTaken;			}	
 	public void incrementTotalTurnsTaken() 			{this.totalTurnsTaken++;				}	
-	public int getTurnsTakenInCurrentRound() 		{return this.turnsTakenInCurrentRound;	}
+	public int getRoundTurns() 		{return this.turnsTakenInCurrentRound;	}
 
 	
 	public void setGamePoints(int gamePoints) {
@@ -100,7 +100,7 @@ public class Player extends Dice {
 		}		
 	}
 	
-	public void setTurnsTakenInCurrentRound(int turnsTakenInCurrentRound) {
+	public void setRoundTurns(int turnsTakenInCurrentRound) {
 		//since the player can have multiple turns in one round
 		this.turnsTakenInCurrentRound = turnsTakenInCurrentRound;
 	}
@@ -135,7 +135,7 @@ public class Player extends Dice {
 		String result = "";
 		result = result + "Name \t\t\t\t\t: " 							 +this.getName()						+ "\n";
 		result = result + "Player Number \t\t\t\t: " 					 +"Player "+this.getPlayerNumber()		+ "\n";
-		result = result + "Number of Turns taken in this Round\t: " 	 +this.getTurnsTakenInCurrentRound()	+ "\n";
+		result = result + "Number of Turns taken in this Round\t: " 	 +this.getRoundTurns()	+ "\n";
 		result = result + "Total turns taken in all rounds\t\t: " 		 +this.getTotalTurnsTaken()				+ "\n";;
 		result = result + "Number of Chips \t\t\t: " 					 +this.previousNumberOfChips			+ "\t=> "+this.getNumberOfChips()	+"\n";
 		result = result + "Total Game Points\t\t\t: " 					 +this.previousGamePoints 				+ "\t=> "+this.getGamePoints()		+"\n";

@@ -1,70 +1,127 @@
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-
-import javax.swing.plaf.FontUIResource;
-
 import edu.princeton.cs.introcs.StdIn;
 import edu.princeton.cs.introcs.StdOut;
-//Presentation Logic
+
+/*Presentation Logic
+Does not create objects of other classes except the observer (controller) class
+sends requests to observer
+receives responses from observer
+sends stdOut to the user
+gets stdIn from the user
+Doesn't do any business logic i.e no calculations or metric handling. 
+
+This class only creates the observer object. 
+
+*/
+
 public class SkunkApp {
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 
-		//Does not create objects of other classes except the observer (controller) class
-		//sends requests to observer
-		//receives responses from observer
-		//sends stdOut to the user
-		//gets stdIn from the user
-		//Doesn't do any business logic i.e no calculations or metric handling. 
-		
+		Player player  		= null;	
+		String roundWinner	= "";	
+		Observer observer 	= null;
+		String nextStep 	= "";
+		String answer 		= "";	
+		String response 	= "";	
+		String msg 		 	= "";			
+	
+		StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");		
+		StdOut.println("@\t      Welcome to the Skunk Game ".toUpperCase()+"\t       @");		
+		StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");			
 
+ 
+	 
+		int nPlayers = getNumberOfPlayers();
+		StdOut.println("Num Players: "+ nPlayers);
 		
-		StdOut.println("**************************");		
-		StdOut.println("Welcome to the Skunk Game.".toUpperCase());		
-		StdOut.println("**************************");		
-
-		
-
-		int numberOfPlayers = getNumberOfPlayers();
-		StdOut.println("There are "+ numberOfPlayers + " players");
-		
-		String[] playerNames = setPlayerNames(numberOfPlayers);
+		String[] names = setPlayerNames(nPlayers);
 		StdOut.println("Player Names are :\n");
-		showPlayerNames(playerNames);
-		StdOut.println("\n");
-
-		//This will be the one and only object that this class will create. 
-		Observer observer = new Observer(playerNames);
+		showPlayerNames(names);
+	 	
+		//String[] names = new String[]{"WWW", "XXX"};
+ 
+		observer = new Observer(names);	
 		
-		Player player  	= null;	
-		String nextStep = "";
-		String answer 	= "";	
-		String response = "";		
-		
-		for (int i = 0; i < 10; i++) {
+		while (!(observer.isLastRound())) {
 			
-			player = observer.getActivePlayer();	
-			StdOut.println("ACTIVE PLAYER IS");			
-			StdOut.println(player);	
-			
+			player = observer.getActivePlayer();
+			msg    = "\nACTIVE PLAYER => "+player.getName()+" <::::> CURRENT STATS: \n"+player;			
+			//StdOut.println(msg);			
 			nextStep = observer.whatNext();
-			System.out.println(nextStep);
+			StdOut.println("NEXT STEP => " +nextStep);	
 			
-			if(nextStep.equalsIgnoreCase("ROLL?")) {
+			if(nextStep.equalsIgnoreCase("DISTRIBUTION")) {
+				System.out.println("in distribution mode");
+				roundWinner = observer.getRoundWinner();
+
+				if(!roundWinner.equalsIgnoreCase("NONE")){
+					msg = roundWinner + "******* Won This Round\n";
+					msg = msg + (roundWinner + ", How Would you like to collect your Chips?\n");
+					msg = msg + ( "OPTION 1: Get 5 chips from Each Player\n");
+					msg = msg + ( "OPTION 2: Get 10 chips from every player that has a game score of 0\n");
+					msg = msg + ( "-> Enter 1 or 2\n");
+					
+					msg = roundWinner + msg;				
+					StdOut.println(msg);
+					
+					answer = StdIn.readLine();
+					while(!(answer.trim().length()>0)){
+						answer = StdIn.readLine();
+					}
+					
+					answer 	= answer.toUpperCase();	
+					msg 	= "USER ANSWERED "+answer;	
+					StdOut.println(msg);	
+
+				}else{
+					StdOut.println("THERE WAS NO WINNER FOR THIS ROUND> ");
+					answer = "NONE";					
+				}
+			}			
+			if(nextStep.contains("ROLL")) {
 				
-				StdOut.println(player.getName() + ",  would you like to roll?");			
+				msg = (nextStep.equalsIgnoreCase("ROLL?"))
+				?",  would you like to roll?"
+				:",  would you like to roll Again?";
+				
+				msg = player.getName() + msg;				
+				StdOut.println(msg);		
+				
 				answer = StdIn.readLine();
 				while(!(answer.trim().length()>0)){
 					answer = StdIn.readLine();
 				}
-				answer = answer.trim().toUpperCase();	
-				System.out.println("USER ANSWERED "+answer);					
-			}
-			observer.requestAction(answer);
-			System.out.println("SUD RESPONDED WITH \n" + response);			
-			answer = "";
+				
+				answer 	= answer.toUpperCase();	
+				msg 	= "USER ANSWERED "+answer;			
+
+				StdOut.println(msg);
+				nextStep="";				
+			}			
+			response = observer.requestAction(answer);
+			msg 	 = "SUD RESPONSE\n" + response;		
+			
+			StdOut.println("--------------------------------------------------------");			
+			StdOut.println(msg);		
+			StdOut.println("--------------------------------------------------------");		
+
+			answer = "";			
+			
 		}
 
 		
+		observer.requestFinalSequence();
+		
+		for (int i = 1; i < 2; i++) {
+			
+			if(true){
+				StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");		
+				StdOut.println("@\t     THIS IS THE LAST ROUND".toUpperCase()+"\t\t\t@");		
+				StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");							
+			}
+			System.out.println("ACTIVE PLAYER >>>>> " + observer.getActivePlayer());
+		}
 		System.exit(0);
 		
 		
