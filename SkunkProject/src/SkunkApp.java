@@ -86,7 +86,7 @@ public class SkunkApp {
 			response = observer.requestAction(answer);
 			StdOut.println("--------------------------------------------------------");
 			StdOut.println(response);
-			StdOut.println("--------------------------------------------------------");
+			//StdOut.println("--------------------------------------------------------");
 			answer = "";
 		}
 
