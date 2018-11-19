@@ -31,14 +31,14 @@ public class SkunkApp {
 		StdOut.println("\t      Welcome to the Skunk Game ".toUpperCase() + "\t       ");
 		StdOut.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
-//		 int nPlayers = getNumberOfPlayers();
-//		 StdOut.println("Num Players: "+ nPlayers);
-//		
-//		 String[] names = setPlayerNames(nPlayers);
-//		 StdOut.println("Player Names are :\n");
-//		 showPlayerNames(names);
+		 int nPlayers = getNumberOfPlayers();
+		 StdOut.println("Num Players: "+ nPlayers);
+		
+		 String[] names = setPlayerNames(nPlayers);
+		 StdOut.println("Player Names are :\n");
+		 showPlayerNames(names);
 
-		String[] names = new String[] { "WWW", "XXX", "VVV" };
+		//String[] names = new String[] { "WWW", "XXX", "VVV" };
 
 		observer = new Observer(names);
 
