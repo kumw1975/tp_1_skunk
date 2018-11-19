@@ -15,7 +15,7 @@ public class Game {
 	private String 	 penalty;
 	private String   status;
 	private int 	 prevRound;
-	private String   roundWinner;
+	private String   roundWinner ="";
 	private Player   gameWinner=null;
  
 	
@@ -39,9 +39,9 @@ public class Game {
 			this.players[i] = new Player(playerNames[i].toUpperCase());
 			this.players[i].setPlayerNumber(i+1);
 		}
-		this.activePlayer = this.players[activePlayerLoc];
-		
-		this.activePlayer.setGamePoints(100);
+		this.activePlayer 			= this.players[activePlayerLoc];		
+//		this.activePlayer.setGamePoints(100);
+//		this.players[activePlayerLoc+1].setGamePoints(100);
 	}
 	
 	private void takeChipsFromAP(int i) {
@@ -66,18 +66,19 @@ public class Game {
 		return this.activePlayer;
 	}
 
-	public void setActivePlayer() {	
-		
+	public void setActivePlayer() {			
 		if(isOneSkunk()
 		||isDeuceAndSkunk()
 		||isDoubleSkunk()){			
 			setNextPlayer();		
 		}
+		else{
+			this.activePlayer = this.players[activePlayerLoc];
+		}
 	}
 
 
-	private void setStatus(){
-		
+	private void setStatus(){		
 		int pNumber 	= activePlayer.getPlayerNumber();
 		String pName    = activePlayer.getName();
 		String rollData = activePlayer.showRollDetails();
@@ -93,10 +94,21 @@ public class Game {
 	 		penaltyStatus(pNumber, pName, rollData, 4);	
 		}
 		else{
+			int prvKitty   = numberOfChipsInKitty;
+			int prvDSkunks = doubleSkunkCount;				
 			int turns = activePlayer.getRoundTurns();
 			status = "ROUND " + roundNumber+ " TURN " +turns;
 			status = status   + " FOR "+ pName + " ****** " 
 			+ pName +" ROLLED ::"+ rollData;
+			status = status +"\n------------------------------------------------------";
+			status = status +"\nGAME INFO \t\t\t\t: OLD \t=> NEW" ;
+			status = status +"\n------------------------------------------------------";
+			status = status + "\n"+activePlayer;
+			
+			status = status +"\nNUMBER OF CHIPS IN THE GAME'S KITTY \t: " 
+			+ prvKitty +" \t=> "+  numberOfChipsInKitty;
+			status = status +"\nDOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  
+			+ prvDSkunks +" \t=> "+  doubleSkunkCount;			
 		}
 	}
 
@@ -147,8 +159,7 @@ public class Game {
 		(activePlayer.getRollValue()==2);
 	}	
 	
-	private void analyzeDiceValues() {
-		
+	private void analyzeDiceValues() {		
 		if(isOneSkunk()){	
 			this.penalty = "OneSkunk";
 		}			
@@ -229,55 +240,6 @@ public class Game {
 		this.takeChipsFromAP(1);
 	}
 
- 	public String next() {
-		String result = "";
-		Player player = this.activePlayer;
-		int turns = player.getRoundTurns();
-
-		if(player.getRollValue() == 0 
-		||!(this.penalty.trim().length() > 0)) {
-			result = (turns > 0 )?"ROLLS?":"ROLL?";
-		}
-		else{
-			result = this.penaltyDetails;			
-		}		
-		if(prevRound != roundNumber){
-			result = "DISTRIBUTION";
-			prevRound = roundNumber;
-		}
-		
-		return result;
-	} 
-
-	public String actAndRespond(String answer) {
-		if(answer.equalsIgnoreCase("Y")){
-			handleYes();
-		}else 
-		if(answer.equalsIgnoreCase("N")){
-			handleNo();			
-		}else 
-		if(answer.equalsIgnoreCase("NONE")){
-			System.out.println(answer);
-			System.out.println("HANDLING NO WINNER");
-			roundWinner = "";
-			status = "";
-		}
-		else 
-		if(answer.equalsIgnoreCase("1")){
-			distribute(1);
-			roundWinner = "";
-			status = "";
-		}
-		else 
-		if(answer.equalsIgnoreCase("2")){
-			distribute(2);
-			roundWinner = "";
-			status = "";
-		}
-			this.penalty = "";
-			return status;
-	}
-
 	/*
 	The winner of each game(round) collects all chips in "kitty" and 
 	in addition five chips from each losing player or 10 chips 
@@ -299,9 +261,7 @@ public class Game {
 		}		
 	}
 	
-	/*
-	or 10 chips from any player without a score. 
-	*/	
+	//or 10 chips from any player without a score.		
 	private void takeTenFromLosers(Player winner) {
 		// or 10 chips from any player without a score. game score? round score? turn score?
 		 for (int i = 0; i < players.length; i++) {
@@ -312,9 +272,7 @@ public class Game {
 		 }
 	}
 	
-	/*
-	in addition five chips from each losing player
-	*/		
+	//in addition five chips from each losing player		
 	private void takeFiveFromLosers(Player winner) {
 		//and in addition ﬁve chips from each losing player				 				 
 		for (int i = 0; i < players.length; i++) {					
@@ -338,43 +296,28 @@ public class Game {
 		return winner;
 	}
 
-	//if user wants to roll again
-	private void handleYes() {
-		activePlayer.roll();
-		analyzeDiceValues();
-		updateTurnMetrics();
-		setStatus();
-		setActivePlayer();
-	}
 
-	//if user choses NOT to roll again
-	private void handleNo() {
-		//analyzeDiceValues, updateTurnMetrics, SetStatus, setNextPlayer
-		setPassed();
-		setNextPlayer();
-	}	
-	
-	private void setPassed(){
-		
+	private void setPassed(){		
 		String pName    = activePlayer.getName();
 		status 			= "";
-		int prevKitty 	= numberOfChipsInKitty;
-		int prevDSkunks = doubleSkunkCount;
+//		int prevKitty 	= numberOfChipsInKitty;
+//		int prevDSkunks = doubleSkunkCount;
 		
 		int turns = activePlayer.getRoundTurns()+1;
 		activePlayer.setRoundTurns(turns);
 		status = "ROUND " + roundNumber+ " TURN " +turns;
-		status = status   + " FOR "+ pName + " ****** " + pName +" PASSED ::";
+		status = status   + " FOR "+ pName + " **** " + pName +" PASSED ::";
 
 		status = status +"\n------------------------------------------------------";
-		status = status +"\nGAME INFO \t\t\t\t: OLD \t=> NEW" ;
-		status = status +"\n------------------------------------------------------";
-		status = status +"\n"+activePlayer;
 		
-		status = status +"\nNUMBER OF CHIPS IN THE GAME'S KITTY \t: " 
-		+ prevKitty +" \t=> "+  numberOfChipsInKitty;
-		status = status +"\nDOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  
-		+ prevDSkunks +" \t=> "+  doubleSkunkCount;		
+//		status = status +"\nGAME INFO \t\t\t\t: OLD \t=> NEW" ;
+//		status = status +"\n------------------------------------------------------";
+//		status = status +"\n"+activePlayer;
+//		
+//		status = status +"\nNUMBER OF CHIPS IN THE GAME'S KITTY \t: " 
+//		+ prevKitty +" \t=> "+  numberOfChipsInKitty;
+//		status = status +"\nDOUBLE SKUNKS IN THE GAME SO FAR  \t: "  
+//		+ prevDSkunks +" \t=> "+  doubleSkunkCount;		
 	}	
  	
 	public String getRoundWinnerByName() {
@@ -387,8 +330,6 @@ public class Game {
 		String name 		= "";
 		
 		for (int i = 0; i < players.length; i++) {
-			System.out.println("ROUND POINTS " + players[i].getRoundPoints());
-
 			if (players[i].getRoundPoints() > highScore ) {
 				highScore   = players[i].getRoundPoints();
 				roundWinnerLoc = i;
@@ -415,30 +356,17 @@ public class Game {
 	
 	//if is skunk deuce, doubleskunk or oneskunk.		
 	private void updateTurnMetrics(){
-
-		updateTurns();
-		
-		if(isOneSkunk()){		
-			enforceOneSkunk();
-		}
-		else 
-		if(isDeuceAndSkunk()){
-			enforceSkunkDeuce();
-		}
-		else 
-		if(isDoubleSkunk()){			
-			enforceDoubleSkunk(); 
-		}		
-		else{		
-			enforceNoPenalty();
-		}
+		updateTurns();		
+		if		(isOneSkunk())		{enforceOneSkunk();}
+		else if	(isDeuceAndSkunk())	{enforceSkunkDeuce();}
+		else if	(isDoubleSkunk())	{enforceDoubleSkunk();}		
+		else	{enforceNoPenalty();}
 		//check for game winner. 
 		setGameWinner();		
 	}
 
 	
-	public void setNextPlayer() {	
-		
+	public void setNextPlayer() {		
 		activePlayerLoc++;			
 		activePlayerLoc= activePlayerLoc%players.length;
 		if(activePlayerLoc == 0){startRound();}
@@ -466,22 +394,93 @@ public class Game {
 		return this.isLastRound;
 	}
 	
+ 	public String next() {
+		String result = "";
+		Player player = this.getActivePlayer();
+		System.out.println(player);
+		int turns = player.getRoundTurns();
+
+		if(player.getRollValue() == 0 
+		||!(this.penalty.trim().length() > 0)) {
+			result = (turns > 0 )?"ROLLS?":"ROLL?";
+		}
+		else{
+			result = this.penaltyDetails;			
+		}		
+
+		if((prevRound != roundNumber) && isLastRound){
+			result = "GAME OVER";
+			prevRound = roundNumber;
+		}
+		else if(prevRound != roundNumber){
+			result = "DISTRIBUTION";
+			prevRound = roundNumber;
+		}
+		return result;
+	} 
+
+	public String actAndRespond(String answer) {
+		if(answer.equalsIgnoreCase("Y")){
+			handleYes();
+		}else 
+		if(answer.equalsIgnoreCase("N")){
+			handleNo();			
+		}else 
+		if(answer.equalsIgnoreCase("NONE")){
+			roundWinner = "";
+			status = "";
+		}
+		else 
+		if(answer.equalsIgnoreCase("1")){
+			distribute(1);
+			roundWinner = "";
+			status = ""; 
+		}
+		else 
+		if(answer.equalsIgnoreCase("2")){
+			distribute(2);
+			roundWinner = "";
+			status = "";
+		}
+		if (isLastRound && activePlayerLoc == 0 ) {
+			if (answer.equalsIgnoreCase("GAME OVER")) {
+				setGameWinner(); 
+
+				status += ("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"      );
+				status += ("\n\tGAME OVER !!! THANKS FOR PLAYING SKUNK  \t\t    ");
+				status += ("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n");
+				status += ("\n\tGame winner is " + this.gameWinner.getName() +" With " 
+					            + this.gameWinner.getGamePoints() + " Points \n\n\n" );
+				status += ("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"  );				
+				status += (this.gameWinner);				
+				status += ("\n########################################################\n\n\n");
+				 
+			}else{
+				setGameWinner();			
+				//status = "";
+			}
+		}
+		this.penalty = "";
+		return status;
+	}
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
- 
- 
-	
+	//if user wants to roll again
+	private void handleYes() {
+		activePlayer.roll();
+		analyzeDiceValues();
+		updateTurnMetrics();
+		setStatus();
+		setActivePlayer();
+	}
+
+	//if user choses NOT to roll again
+	private void handleNo() {
+		//analyzeDiceValues, updateTurnMetrics, SetStatus, setNextPlayer
+		setPassed();
+		setNextPlayer();
+	}	
+
 	/*	
 	The first player to accumulate a total of 100 or more points
 	can continue to score as many points over 100 as he believes
@@ -489,19 +488,7 @@ public class Game {
 	Each succeeding player receives one more chance to better the goal and end the game(round).
 	
 	*/
- 
-
-	
-
-
-
-	
-
-
-	//---------------------------------------------------------------
-
-	private int getLoc(Player player){	
-		
+	private int getLoc(Player player){		
 		int cap = players.length;
 		int loc = 0;		
 		for (int i = 0; i < cap; i++) {
@@ -512,17 +499,7 @@ public class Game {
 		return loc;
 	}
 
-
-
-
-	/*	 	
-		The first player to accumulate a total of 100 or more points
-		can continue to score as many points over 100 as he believes
-		is needed to win. When he decides to stop, his total score is the “goal.” 
-		Each succeeding player receives one more chance to better the goal and end the game(round).
-	*/	
-	private void setLastRound() {
-	 		
+	private void setLastRound() {	 		
 		int cap			 			= players.length;			
 		Player[] lastRoundSequence 	= new Player[cap];
 		int playerLoc 	 			= getLoc(activePlayer);
@@ -539,109 +516,19 @@ public class Game {
 		this.lastRoundSequence 		= lastRoundSequence;
 		this.players=lastRoundSequence;
 		
+		if(this.lastRoundSequence.length >=1){
+			//refactor this method
+		}
 		//Each succeeding player receives one more 
  		//chance to better the goal and end the game(round) hence i=1.
 		//so we skip the winning player i=0;
-		this.activePlayer = players[1]; 
+
+		this.activePlayer 			= players[1]; 
+		this.activePlayerLoc 		= 1;
 	}
-
-
-
-
 
 	public void setLastRoundSequence() {
 		this.setLastRound();		
 	}
-
-	
-
-
-
-	/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	This class implements the following rules
-	----------------------------------------------
-	The object of the game(round) is to accumulate a score of 100 points or more. 
-	A score is made by rolling the dice and combining the points on the two dice. 
-	For example: A 4 and 5 would be 9 points - 
-	if the player decides to take another roll of the dice and turns up a 
-	3 and 5 (8 points), he would then have an accumulated total of 17 
-	points for the two rolls. The player has the privilege of continuing 
-	to shake to increase his score or of passing the dice to wait for the 
-	next Turn, thus preventing the possibility of rolling a Skunk and losing his score.	 
-	
-		 
-	PENALTIES:
-	
-	A skunk in any Turn voids the score for that Turn only
-	and draws a penalty of 1 chip placed in the "kitty," 
-	and loss of dice.
-	
-	A skunk and a deuce voids the score for that Turn only 
-	and draws a penalty of 2 chips placed in the "kitty," 
-	and loss of dice.
-	
-	TWO skunks void the ENTIRE accumulated score 
-	and draws a penalty of 4 chips placed in the "kitty," 
-	and loss of dice. 
-	Player must again start to score from scratch.
-	
-	
-	Any number can play. [Assume at least two players!] 
-	The suggested number of chips to start is 50. 
-	There are sufficient chips in the box to allow 8 
-	players to start with 50 chips by placing a 
-	par value of "one" on white chips, 5 for 1 on red chips 
-	and 10 for 1 on the blue chips.
-	
-	
-	The first player to accumulate a total of 100 or more points
-	can continue to score as many points over 100 as he believes
-	is needed to win. When he decides to stop, his total score is the “goal.” 
-	Each succeeding player receives one more chance to better the goal and end the game(round).
-	
-	
-	The winner of each game(round) collects all chips in "kitty" and 
-	in addition ﬁve chips from each losing player or 10 chips 
-	from any player without a score.
-	
-	
-		 
-	 start Game:: USERINPUT ::=> #players, player names
-	 	initialize Players
-	 	
-	 	start Round()
-	 		initialize Round Metrics
-	 			Start Turn()
-	 				initialize Turn Metrics
-	 				roll()
-	 				analyze dice values
-	 				update Turn Metrics
-	 				askToRollAgain()
-	 					if y:go to roll() else: go to endTurn()
-	 			end Turn() :: 
-	 		Update Round Metrics
-	 	end Round()
-	 	
-	 	get Winner()
-	 	displayChipDistributionOptions()
-	 	distributeChips()
-	 	 
-*/
-	
-		
 
 }

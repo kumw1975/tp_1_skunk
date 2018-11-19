@@ -10,59 +10,36 @@ public class Player extends Dice {
 	private int totalTurnsTaken;
 	private int turnsTakenInCurrentRound;	
 	private int playerNumber;
-	private int doublSkunkCount;
-	
+	private int doublSkunkCount;	
 	private int previousNumberOfChips;
 	private int previousTurnPoints;
 	private int previousRoundPoints;
 	private int previousGamePoints; 
 	private int previousDoublSkunkCount;
  
+	//decided to use only white chips
+	//players to start with 50 chips by placing a par value of "one" on white chips, 
+	//(//=> no chip modeling 5 for 1 on red chips and 10 for 1 on the blue chips.)	
 
 	//The player class instantiates the player and the dice. 
 	public Player(String name) {
 		
 		super();
 		this.name 						= name;
-		//decided to use only white chips
-		//players to start with 50 chips by placing a par value of "one" on white chips, 
-		//(//=> no chip modeling 5 for 1 on red chips and 10 for 1 on the blue chips.)
 		this.numberOfChips 				= 50;
 		this.turnPoints 				= 0;
 		this.roundPoints 				= 0;
 		this.gamePoints 				= 0; 
 		this.totalTurnsTaken			= 0; 
 		this.turnsTakenInCurrentRound 	= 0;	
-		this.doublSkunkCount 			= 0;
-		
+		this.doublSkunkCount 			= 0;		
 		this.previousNumberOfChips 		= this.numberOfChips;
 		this.previousTurnPoints 		= 0;
 		this.previousRoundPoints 		= 0;
 		this.previousGamePoints 		= 0; 
 		this.previousDoublSkunkCount 	= 0;
 	} 	
-	
-	//intantiate a player with 2 testable (Predictable) Die :: we can create variations of 
-	//this => one testable and one random but this should suffice. 
-	public Player(String name, int[] die1RollValues, int[]die2RollValues) {
-		
-		super(new Die(die1RollValues), new Die(die2RollValues));
-		this.name 						= name;
-		this.numberOfChips 				= 50;
-		this.turnPoints 				= 0;
-		this.roundPoints 				= 0;
-		this.gamePoints 				= 0; 
-		this.totalTurnsTaken			= 0; 
-		this.turnsTakenInCurrentRound 	= 0;	
-		this.doublSkunkCount 			= 0;
-		
-		this.previousNumberOfChips 		= this.numberOfChips;
-		this.previousTurnPoints 		= 0;
-		this.previousRoundPoints 		= 0;
-		this.previousGamePoints 		= 0; 
-		this.previousDoublSkunkCount 	= 0;
-	} 	
-	
+
 	@Override
 	public void roll(){	
 		//since player rolls the dice ::-> we have created a Dice instance, and can invoke roll() against it, 
@@ -87,7 +64,7 @@ public class Player extends Dice {
 	public void setDoubleSkunkCount(int i) 			{this.doublSkunkCount = i;				}
 	public int getTotalTurnsTaken() 				{return this.totalTurnsTaken;			}	
 	public void incrementTotalTurnsTaken() 			{this.totalTurnsTaken++;				}	
-	public int getRoundTurns() 		{return this.turnsTakenInCurrentRound;	}
+	public int getRoundTurns() 						{return this.turnsTakenInCurrentRound;	}
 
 	
 	public void setGamePoints(int gamePoints) {
