@@ -340,7 +340,7 @@ public class Game {
 		} catch (Exception e) {
 			name = "NONE";
 		}
-		System.out.println("ROUND WINNER IS "+ name);
+		//System.out.println("ROUND WINNER IS "+ name);
 		this.roundWinner = name;			
 	}
 	
@@ -397,7 +397,7 @@ public class Game {
  	public String next() {
 		String result = "";
 		Player player = this.getActivePlayer();
-		System.out.println(player);
+		//System.out.println(player);
 		int turns = player.getRoundTurns();
 
 		if(player.getRollValue() == 0 
