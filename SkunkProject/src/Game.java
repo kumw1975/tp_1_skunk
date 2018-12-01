@@ -94,22 +94,30 @@ public class Game {
 	 		penaltyStatus(pNumber, pName, rollData, 4);	
 		}
 		else{
-			int prvKitty   = numberOfChipsInKitty;
-			int prvDSkunks = doubleSkunkCount;				
-			int turns = activePlayer.getRoundTurns();
-			status = "ROUND " + roundNumber+ " TURN " +turns;
-			status = status   + " FOR "+ pName + " ****** " 
-			+ pName +" ROLLED ::"+ rollData;
-			status = status +"\n------------------------------------------------------";
-			status = status +"\nGAME INFO \t\t\t\t: OLD \t=> NEW" ;
-			status = status +"\n------------------------------------------------------";
-			status = status + "\n"+activePlayer;
-			
-			status = status +"\nNUMBER OF CHIPS IN THE GAME'S KITTY \t: " 
-			+ prvKitty +" \t=> "+  numberOfChipsInKitty;
-			status = status +"\nDOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  
-			+ prvDSkunks +" \t=> "+  doubleSkunkCount;			
+			noPenalty(pName, rollData);			
 		}
+	}
+
+	/**
+	 * @param pName
+	 * @param rollData
+	 */
+	private void noPenalty(String pName, String rollData) {
+		int prvKitty   = numberOfChipsInKitty;
+		int prvDSkunks = doubleSkunkCount;				
+		int turns = activePlayer.getRoundTurns();
+		status = "ROUND " + roundNumber+ " TURN " +turns;
+		status = status   + " FOR "+ pName + " ****** " 
+		+ pName +" ROLLED ::"+ rollData;
+		status = status +"\n------------------------------------------------------";
+		status = status +"\nGAME INFO \t\t\t\t: OLD \t=> NEW" ;
+		status = status +"\n------------------------------------------------------";
+		status = status + "\n"+activePlayer;
+		
+		status = status +"\nNUMBER OF CHIPS IN THE GAME'S KITTY \t: " 
+		+ prvKitty +" \t=> "+  numberOfChipsInKitty;
+		status = status +"\nDOUBLE SKUNKS IN THE GAME  SO FAR  \t: "  
+		+ prvDSkunks +" \t=> "+  doubleSkunkCount;
 	}
 
 	private void penaltyStatus(
